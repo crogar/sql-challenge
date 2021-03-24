@@ -1,78 +1,25 @@
--- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- Link to schema: https://app.quickdatabasediagrams.com/#/d/zyGZhx
--- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+-- 1. List the following details of each employee: employee number, last name, first name, sex, and salary.
+
+SELECT employees.emp_no, employees.last_name, employees.first_name, employees.sex, salaries.salary
+FROM employees
+JOIN Salaries
+ON employees.emp_no = salaries.emp_no
+
+-- 2. List first name, last name, and hire date for employees who were hired in 1986.
+
+SELECT employees.last_name, employees.first_name, employees.hire_date
+FROM employees
+WHERE employees.hire_date LIKE '%1986';
+
+-- 3. List the manager of each department with the following information: department number, department name, 
+-- the manager's employee number, last name, first name.
+
+SELECT 
 
 
-CREATE TABLE "departments" (
-    "dept_no" varchar(4)   NOT NULL,
-    "dept_name" varchar   NOT NULL,
-    CONSTRAINT "pk_departments" PRIMARY KEY (
-        "dept_no"
-     ),
-    CONSTRAINT "uc_departments_dept_name" UNIQUE (
-        "dept_name"
-    )
-);
-
-CREATE TABLE "dept_emp" (
-    "emp_no" int   NOT NULL,
-    "dept_no" varchar(4)   NOT NULL,
-    CONSTRAINT "pk_dept_emp" PRIMARY KEY (
-        "emp_no","dept_no"
-     )
-);
-
-CREATE TABLE "dept_manager" (
-    "dept_no" varchar(4)   NOT NULL,
-    "emp_no" int   NOT NULL,
-    CONSTRAINT "pk_dept_manager" PRIMARY KEY (
-        "dept_no"
-     )
-);
-
-CREATE TABLE "employees" (
-    "emp_no" int   NOT NULL,
-    "birth_date" varchar(10)   NOT NULL,
-    "first_name" varchar   NOT NULL,
-    "last_name" varchar   NOT NULL,
-    "gender" varchar(1)   NOT NULL,
-    "hire_date" varchar(10)   NOT NULL,
-    CONSTRAINT "pk_employees" PRIMARY KEY (
-        "emp_no"
-     )
-);
-
-CREATE TABLE "titles" (
-    "emp_no" int   NOT NULL,
-    "title" varchar   NOT NULL,
-    CONSTRAINT "pk_titles" PRIMARY KEY (
-        "emp_no"
-     )
-);
-
-CREATE TABLE "salaries" (
-    "emp_no" int   NOT NULL,
-    "salary" int   NOT NULL,
-    CONSTRAINT "pk_salaries" PRIMARY KEY (
-        "emp_no"
-     )
-);
-
-ALTER TABLE "dept_emp" ADD CONSTRAINT "fk_dept_emp_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
-
-ALTER TABLE "dept_emp" ADD CONSTRAINT "fk_dept_emp_dept_no" FOREIGN KEY("dept_no")
-REFERENCES "departments" ("dept_no");
-
-ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_dept_no" FOREIGN KEY("dept_no")
-REFERENCES "departments" ("dept_no");
-
-ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
-
-ALTER TABLE "titles" ADD CONSTRAINT "fk_titles_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
-
-ALTER TABLE "salaries" ADD CONSTRAINT "fk_salaries_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
-
+SELECT departments.dept_no, departments.dept_name, dept_manager.emp_no, employees.last_name, employees.first_name
+FROM departments
+JOIN dept_manager
+ON departments.dept_no = dept_manager.dept_no
+JOIN employees
+ON dept_manager.emp_no = employees.emp_no;

@@ -5,7 +5,7 @@ title varchar
 
 employees as emp
 -
-emp_no int PK
+emp_no VARCHAR PK
 emp_title_id varchar(15) FK - titles.title_id
 birth_date varchar(10)
 first_name varchar
