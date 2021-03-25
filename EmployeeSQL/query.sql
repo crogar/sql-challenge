@@ -40,3 +40,4 @@ JOIN departments
 ON dept_emp.dept_no = departments.dept_no
 WHERE dept_name = 'Sales';
 
+7. List all employees in the Sales and Development departments, including their employee number, last name, first name, and department name.
